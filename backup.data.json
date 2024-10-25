@@ -1,0 +1,65 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "product_name": "Web Design Basic",
+      "price": 150,
+      "created_at": "2024-09-14T12:13:45Z"
+    },
+    {
+      "id": 2,
+      "product_name": "SEO Optimization",
+      "price": 200,
+      "created_at": "2024-09-13T05:00:00-07:00"
+    },
+    {
+      "id": 3,
+      "product_name": "E-commerce Setup",
+      "price": 300,
+      "created_at": "2024-09-15T22:00:00+01:00"
+    },
+    {
+      "id": 4,
+      "product_name": "Content Management System",
+      "price": 250,
+      "created_at": "2024-09-16T08:00:00+09:00"
+    },
+    {
+      "id": 5,
+      "product_name": "Website Maintenance",
+      "price": 100,
+      "created_at": "2024-09-17T03:00:00-03:00"
+    },
+    {
+      "id": 6,
+      "product_name": "Custom Web Application",
+      "price": 500,
+      "created_at": "2024-09-18T13:00:00+05:30"
+    },
+    {
+      "id": 7,
+      "product_name": "Responsive Web Design",
+      "price": 180,
+      "created_at": "2024-09-19T23:00:00+00:00"
+    },
+    {
+      "id": 8,
+      "product_name": "Social Media Integration",
+      "price": 120,
+      "created_at": "2024-09-20T10:00:00+02:00"
+    },
+    {
+      "id": 9,
+      "product_name": "Performance Optimization",
+      "price": 220,
+      "created_at": "2024-09-21T15:00:00+03:00"
+    },
+    {
+      "id": 10,
+      "product_name": "Web Security Audit",
+      "price": 350,
+      "created_at": "2024-09-22T17:00:00+08:00"
+    }
+  ],
+  "vouchers": []
+}
