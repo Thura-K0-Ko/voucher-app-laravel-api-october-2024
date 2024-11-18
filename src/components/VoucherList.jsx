@@ -1,36 +1,58 @@
 import React, { useState } from "react";
 import { HiSearch } from "react-icons/hi";
-import { HiComputerDesktop } from "react-icons/hi2";
+import { HiChevronDown, HiChevronUp, HiComputerDesktop } from "react-icons/hi2";
 import useSWR from "swr";
 
 import ProductRowSkeletonLoader from "./ProductRowSkeletonLoader";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 import VoucherListRow from "./VoucherListRow";
 import EmptyVoucher from "./EmptyVoucher";
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 import Pagination from "./Pagination";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const VoucherList = () => {
+  const location = useLocation();
+  const [params, setParams] = useSearchParams();
   const [fetchUrl, setFetchUrl] = useState(
-    import.meta.env.VITE_API_URL + `/vouchers`
+    import.meta.env.VITE_API_URL + `/vouchers` + location.search
   );
   const { data, error, isLoading } = useSWR(fetchUrl, fetcher);
 
   const handleSearch = debounce((e) => {
-    setFetchUrl(import.meta.env.VITE_API_URL + `/vouchers?q=${e.target.value}`);
+    if (e.target.value) {
+      setParams({ q: e.target.value });
+      setFetchUrl(
+        import.meta.env.VITE_API_URL + `/vouchers?q=${e.target.value}`
+      );
+    } else {
+      setParams({});
+      setFetchUrl(import.meta.env.VITE_API_URL + `/vouchers`);
+    }
     console.log(e.target.value);
   }, 500);
 
   const updateUrl = (url) => {
+    const newUrl = new URL(url);
+    const newSearchParams = new URLSearchParams(newUrl.search);
+    const paramsObject = Object.fromEntries(newSearchParams);
+    // console.log(paramsObject);
+    setParams(paramsObject);
     setFetchUrl(url);
   };
   // if (isLoading) {
   //   console.log("loading");
   // } else {
-  //   console.log(data.links);
+  //   console.log(data);
   // }
+
+  const handleSort = (sortData) => {
+    setParams(sortData);
+    const sortParams = new URLSearchParams(sortData).toString();
+
+    setFetchUrl(`${import.meta.env.VITE_API_URL}/vouchers?${sortParams}`);
+  };
   return (
     <div className="">
       <div className="">
@@ -62,13 +84,60 @@ const VoucherList = () => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                #Voucher ID
+                <div className="flex items-center gap-1">
+                  <div className=" flex flex-col items-center ">
+                    <button
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "asc",
+                      })}
+                      className=" cursor-pointer hover:bg-blue-400"
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "desc",
+                      })}
+                      className=" cursor-pointer hover:bg-blue-400"
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </div>
+                  <span>#</span>
+                </div>
               </th>
               <th scope="col" className="px-6 py-3">
-                PRODUCT NAME
+                Voucher ID
               </th>
-              <th scope="col" className="px-6 py-3 text-end">
-                Customer Email
+              <th scope="col" className="px-6 py-3 text-start">
+                Customer
+              </th>
+              <th scope="col" className="px-6 py-3 text-nowrap text-end">
+                <div className="flex items-center gap-1 justify-end">
+                  <div className=" flex flex-col items-center ">
+                    <button
+                      onClick={handleSort.bind(null, {
+                        sort_by: "total",
+                        sort_direction: "asc",
+                      })}
+                      className=" cursor-pointer hover:bg-blue-400"
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      onClick={handleSort.bind(null, {
+                        sort_by: "total",
+                        sort_direction: "desc",
+                      })}
+                      className=" cursor-pointer hover:bg-blue-400"
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </div>
+                  <span >Total</span>
+                </div>
               </th>
               <th scope="col" className="px-6 py-3 text-nowrap text-end">
                 CREATED AT
