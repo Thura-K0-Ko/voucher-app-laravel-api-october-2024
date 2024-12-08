@@ -1,22 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import NotFoundPage from "../pages/NotFoundPage";
-import Layout from "../components/Layout";
+import { lazy } from "react";
+// import { NotFoundPage } from "../pages/NotFoundPage";
 
-import ProductPage from "../pages/ProductPage";
-import DashboardPage from "../pages/DashboardPage";
-import SalePage from "../pages/SalePage";
-import VoucherPage from "../pages/VoucherPage";
-import CreateProductPage from "../pages/CreateProductPage";
+const Layout = lazy(() => import("../components/Layout"));
+const ProductPage = lazy(() => import("../pages/ProductPage"));
+const DashboardPage = lazy(() => import("../pages/DashboardPage"));
+const SalePage = lazy(() => import("../pages/SalePage"));
+const VoucherPage = lazy(() => import("../pages/VoucherPage"));
+const CreateProductPage = lazy(() => import("../pages/CreateProductPage"));
+const EditProductPage = lazy(() => import("../pages/EditProductPage"));
+const VoucherDetail = lazy(() => import("../pages/VoucherDetail"));
 
-import EditProductPage from "../pages/EditProductPage";
-import VoucherDetail from "../pages/VoucherDetail";
+
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <NotFoundPage />,
+    // errorElement: <NotFoundPage />,
     children: [
       { index: true, element: <DashboardPage /> },
       { path: "/product", element: <ProductPage /> },
@@ -25,6 +28,7 @@ const router = createBrowserRouter([
       { path: "/sale", element: <SalePage /> },
       { path: "/voucher", element: <VoucherPage /> },
       { path: "/voucher/detail/:id", element: <VoucherDetail /> },
+      
     ],
   },
 ]);
